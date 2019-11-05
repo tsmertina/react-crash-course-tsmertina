@@ -5,7 +5,7 @@ class RequestUI extends React.Component {
         let {processing, error, handleRequestClick, handleCancelClick, info} = this.props;
         return(
              <>
-                <button onClick={handleRequestClick}>Create Request</button>
+                <button onClick={handleRequestClick} disabled={processing}>Create Request</button>
                 <button onClick={handleCancelClick}>Cancel request</button>
                 {processing && 
                     <p>Random name processing...</p>

@@ -61,26 +61,6 @@ class Request extends React.Component {
         let info = response.results? `${response.results[0].name.title} ${response.results[0].name.first} ${response.results[0].name.last}` : '';
         return(
             <RequestUI response={response} error={error} processing={processing} info={info} handleRequestClick={this.createTimeoutRequest} handleCancelClick={() => this.createRequest('cancel')} />
-            /* <>
-                <button onClick={this.createTimeoutRequest}>Create Request</button>
-                <button onClick={() => {this.createRequest('cancel')}}>Cancel request</button>
-                {processing && 
-                    <p>Random name processing...</p>
-                }
-                <p>
-                    { error ? 
-                           <>
-                                {error}
-                                <br/>
-                                <button onClick={this.createTimeoutRequest}>Repeat request</button>
-                            </>
-                          
-                            : 
-                            info
-                        }
-                </p>
-            </> */
-
         )
     }
 }
