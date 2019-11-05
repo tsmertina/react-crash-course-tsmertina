@@ -19,8 +19,9 @@ class Request extends React.Component {
         if (param) {
             source.cancel();
             this.setState({
-                isCancelled: true
-            })
+                isCancelled: true,
+            });
+            clearTimeout(this.state.timeout);
         }
         axios.get('https://randomuser.me/api/',
             { cancelToken: cancel }
@@ -53,7 +54,7 @@ class Request extends React.Component {
             isCancelled: false,
             error: ''
         });
-        setTimeout(() => this.createRequest(), 2000);
+        this.setState({timeout:  setTimeout(() => this.createRequest(), 2000)});
     }
 
     render() {

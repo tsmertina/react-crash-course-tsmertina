@@ -11,16 +11,16 @@ class RequestUI extends React.Component {
                     <p>Random name processing...</p>
                 }
                 <p>
-                    { error ? 
-                           <>
-                                {error}
-                                <br/>
-                                <button onClick={handleRequestClick}>Repeat request</button>
-                            </>
-                          
-                            : 
-                            info
-                        }
+                    {
+                        error ? 
+                        <>
+                            {error}
+                            <br/>
+                            <button onClick={handleRequestClick}>Repeat request</button>
+                        </>
+                        : 
+                        info
+                    }
                 </p>
             </>
         )
