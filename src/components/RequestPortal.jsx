@@ -1,13 +1,17 @@
 import axios from 'axios';
 import React from 'react';
-const RequestUI = React.lazy(() => import('./RequestUI'));
+import RequestButtons from './RequestButtons';
+import RequestResult from './RequestResult';
+import {Color} from './Color';
 
-class Request extends React.Component {
 
+
+class RequestPortal extends React.Component {
     state = {
-        response: {},
+        response: '',
         processing: false,
         error: '',
+        color: 'orange'
     }
 
     createRequest = () => {
@@ -15,7 +19,7 @@ class Request extends React.Component {
         this.source = this.CancelToken.source();
 
         this.setState({
-            response: [],
+            response: '',
             processing: true,
             error: '',
         });
@@ -23,8 +27,9 @@ class Request extends React.Component {
         axios.get('https://randomuser.me/api/',
             { cancelToken: this.source.token},
         ).then((response) => {
+            let res = response.data.results[0];
             this.setState({
-                response: response.data,
+                response: `${res.name.title} ${res.name.first} ${res.name.last}`,
                 processing: false
             });
         }).catch(error => {
@@ -32,7 +37,7 @@ class Request extends React.Component {
                 this.setState({
                     error: 'Request cancelled',
                     processing: false,
-                    response: []
+                    response: ''
                 });
                 
             } else {
@@ -49,14 +54,24 @@ class Request extends React.Component {
             this.source.cancel();
         }
     }
+    
+    handleColorChange = (e) => {
+        this.setState({color:e.currentTarget.value });
+    }
 
     render() {
-        const { response, error, processing } = this.state;
-        let info = response.results? `${response.results[0].name.title} ${response.results[0].name.first} ${response.results[0].name.last}` : '';
+        const { response, error, processing, color } = this.state;
+
         return(
-            <RequestUI response={response} error={error} processing={processing} info={info} handleRequestClick={this.createRequest} handleCancelClick={this.cancelRequest} />
+            <>
+                <input type="text" defaultValue={color} onChange={this.handleColorChange} />
+                <RequestButtons processing={processing} handleCreateRequest={this.createRequest} handleCancelRequest={this.cancelRequest} />
+                <Color.Provider value={color}>
+                    <RequestResult response={response} error={error} handleCreateRequest={this.createRequest}/>
+                </Color.Provider>
+            </>
         )
     }
 }
 
-export default Request;
+export default RequestPortal;
