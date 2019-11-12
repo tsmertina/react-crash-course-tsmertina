@@ -2,8 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import RequestButtons from './RequestButtons';
 import RequestResult from './RequestResult';
-import {Color} from './Color';
-
+import { Color } from './Color';
 
 
 class RequestPortal extends React.Component {
@@ -11,7 +10,13 @@ class RequestPortal extends React.Component {
         response: '',
         processing: false,
         error: '',
-        color: 'orange'
+        color: 'white',
+        darkTheme: 'grey',
+        lightTheme: 'lightgrey'
+    }
+
+    componentDidMount() {
+        this.cancelRequest();
     }
 
     createRequest = () => {
@@ -55,21 +60,22 @@ class RequestPortal extends React.Component {
         }
     }
     
-    handleColorChange = (e) => {
-        this.setState({color:e.currentTarget.value });
+    handleColorChange = (param) => {
+        this.setState({color: param });
     }
 
     render() {
-        const { response, error, processing, color } = this.state;
+        const { response, error, processing, color, darkTheme ,lightTheme} = this.state;
 
         return(
-            <>
-                <input type="text" defaultValue={color} onChange={this.handleColorChange} />
+            <div style={{backgroundColor: color}}>
+                <button className="b-app-button" onClick={() => this.handleColorChange(darkTheme)}>{darkTheme} theme</button>
+                <button className="b-app-button" onClick={() => this.handleColorChange(lightTheme)}>{lightTheme} theme</button>
                 <RequestButtons processing={processing} handleCreateRequest={this.createRequest} handleCancelRequest={this.cancelRequest} />
                 <Color.Provider value={color}>
-                    <RequestResult response={response} error={error} handleCreateRequest={this.createRequest}/>
+                    <RequestResult processing={processing} response={response} error={error} handleCreateRequest={this.createRequest}/>
                 </Color.Provider>
-            </>
+            </div>
         )
     }
 }

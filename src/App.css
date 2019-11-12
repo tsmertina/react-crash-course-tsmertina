@@ -20,3 +20,12 @@
 .App-link {
   color: #09d3ac;
 }
+
+.b-app-button {
+  width: 50%;
+}
+
+.request-result {
+  text-align: center;
+  padding: 20px;
+}

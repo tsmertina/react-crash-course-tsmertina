@@ -1,5 +1,4 @@
 import React, {useRef, useEffect} from 'react';
-import RequestButtonsPortal from './RequestButtonsPortal';
 
 function RequestButtons(props) {
     const {handleCreateRequest, handleCancelRequest, processing} = props;
@@ -10,14 +9,10 @@ function RequestButtons(props) {
     });
 
     return (
-        <RequestButtonsPortal>
-            <button onClick={handleCreateRequest} disabled={processing}>Create Request</button>
-            <button ref={cancelButtonRef} onClick={handleCancelRequest}>Cancel request</button>
-
-            {processing && 
-                <p>Random name processing...</p>
-            }
-        </RequestButtonsPortal>
+        <div class="b-request-buttons">
+            <button className="b-app-button" onClick={handleCreateRequest} disabled={processing}>Create Request</button>
+            <button className="b-app-button" ref={cancelButtonRef} onClick={handleCancelRequest}>Cancel request</button>
+        </div>
     )
 }
 export default RequestButtons;

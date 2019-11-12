@@ -1,25 +1,29 @@
 import React, {useContext}from 'react';
-import RequestResultPortal from './RequestButtonsPortal';
+import RequestResultPortal from './RequestResultPortal';
 import { Color } from './Color';
 
 export default function RequestResult(props) {
     const color = useContext(Color);
-    const {response, handleCreateRequest, error } = props;
+    const {response, handleCreateRequest, error, processing } = props;
     return (
         <RequestResultPortal>
-                <p style={{backgroundColor: color}}>
+                <div style={{backgroundColor: color}} className="request-result">
+                    { processing && 
+                        <span>Random name processing...</span>
+                    }
                     {
                         error ? 
                         <>
                             {error}
-                            <br/>
-                            <button onClick={handleCreateRequest}>Repeat request</button>
+                            <div><button onClick={handleCreateRequest}>Repeat request</button></div>
                         </>
                         : 
                         response
                     }
-                </p>
+                </div>
         </RequestResultPortal>
     )
 }
+
+// export default withColor(RequestResult);
 
