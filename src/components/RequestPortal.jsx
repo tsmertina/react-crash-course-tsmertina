@@ -1,83 +1,66 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import RequestButtons from './RequestButtons';
 import RequestResult from './RequestResult';
-import { Color } from './Color';
+import { Color, withColor } from './Color';
+import ColorButtons from './ColorButtons';
+
+let source = null;
 
 
-class RequestPortal extends React.Component {
-    state = {
-        response: '',
-        processing: false,
-        error: '',
-        color: 'white',
-        darkTheme: 'grey',
-        lightTheme: 'lightgrey'
-    }
+export default function RequestPortal() {
+    const [response, setResponse] = useState('');
+    const [processing, setProcessing] = useState(false);
+    const [error, setError] = useState('');
+    const [color, setColor] = useState('white');
 
-    componentDidMount() {
-        this.cancelRequest();
-    }
+    const childRef = useRef(null);
+    let CancelToken = '';
 
-    createRequest = () => {
-        this.CancelToken = axios.CancelToken;
-        this.source = this.CancelToken.source();
-
-        this.setState({
-            response: '',
-            processing: true,
-            error: '',
-        });
+    function createRequest() {
+        childRef.current.focus();
+        CancelToken = axios.CancelToken;
+        source = CancelToken.source();
+        setResponse('');
+        setProcessing(true);
+        setError('');
 
         axios.get('https://randomuser.me/api/',
-            { cancelToken: this.source.token},
+            { cancelToken: source.token},
         ).then((response) => {
             let res = response.data.results[0];
-            this.setState({
-                response: `${res.name.title} ${res.name.first} ${res.name.last}`,
-                processing: false
-            });
+            setResponse(`${res.name.title} ${res.name.first} ${res.name.last}`);
+            setProcessing(false);
         }).catch(error => {
             if (axios.isCancel(error)) {
-                this.setState({
-                    error: 'Request cancelled',
-                    processing: false,
-                    response: ''
-                });
-                
+                setResponse('');
+                setProcessing(false);
+                setError('Request cancelled');
+
             } else {
-                this.setState({
-                    error: error.message,
-                    processing: false
-                });
+                setProcessing(false);
+                setError(error.message);
             }
          });
     }
 
-    cancelRequest = () => {
-        if (this.source) {
-            this.source.cancel();
+    function cancelRequest() {
+        if (source) {
+            source.cancel();
         }
     }
     
-    handleColorChange = (param) => {
-        this.setState({color: param });
+    function handleColorChange(param) {
+        setColor(param)
     }
 
-    render() {
-        const { response, error, processing, color, darkTheme ,lightTheme} = this.state;
-
-        return(
-            <div style={{backgroundColor: color}}>
-                <button className="b-app-button" onClick={() => this.handleColorChange(darkTheme)}>{darkTheme} theme</button>
-                <button className="b-app-button" onClick={() => this.handleColorChange(lightTheme)}>{lightTheme} theme</button>
-                <RequestButtons processing={processing} handleCreateRequest={this.createRequest} handleCancelRequest={this.cancelRequest} />
-                <Color.Provider value={color}>
-                    <RequestResult processing={processing} response={response} error={error} handleCreateRequest={this.createRequest}/>
-                </Color.Provider>
-            </div>
-        )
-    }
+    return (
+        <div style={{ backgroundColor: color }}>
+            <ColorButtons handleColorChange={handleColorChange} />
+            <RequestButtons forwardRef={childRef} processing={processing} handleCreateRequest={createRequest} handleCancelRequest={cancelRequest} />
+            <Color.Provider value={color}>
+                <RequestResult processing={processing} response={response} error={error} handleCreateRequest={createRequest}/>  
+            </Color.Provider>
+        </div>
+    )
 }
-
-export default RequestPortal;

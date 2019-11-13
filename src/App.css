@@ -21,11 +21,19 @@
   color: #09d3ac;
 }
 
+.c-loader {
+  text-align: center;
+}
+
 .b-app-button {
   width: 50%;
 }
 
-.request-result {
+.b-app-button:focus {
+  border-color: darkgrey;
+}
+
+.b-request-result {
   text-align: center;
   padding: 20px;
 }

@@ -1,17 +1,12 @@
-import React, {useRef, useEffect} from 'react';
+import React from 'react';
 
 function RequestButtons(props) {
-    const {handleCreateRequest, handleCancelRequest, processing} = props;
-    const cancelButtonRef = useRef();
-
-    useEffect(() => {
-        cancelButtonRef.current.focus();
-    });
+    const { handleCreateRequest, handleCancelRequest, processing, forwardRef } = props;
 
     return (
-        <div class="b-request-buttons">
+        <div className="c-request-buttons">
             <button className="b-app-button" onClick={handleCreateRequest} disabled={processing}>Create Request</button>
-            <button className="b-app-button" ref={cancelButtonRef} onClick={handleCancelRequest}>Cancel request</button>
+            <button className="b-app-button" ref={forwardRef} onClick={handleCancelRequest}>Cancel request</button>
         </div>
     )
 }
