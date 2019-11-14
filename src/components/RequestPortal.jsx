@@ -13,12 +13,12 @@ export default function RequestPortal() {
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState('');
     const [color, setColor] = useState('white');
+    const ref = React.createRef();
 
-    const childRef = useRef(null);
     let CancelToken = '';
 
     function createRequest() {
-        childRef.current.focus();
+        ref.current.focus();
         CancelToken = axios.CancelToken;
         source = CancelToken.source();
         setResponse('');
@@ -36,7 +36,6 @@ export default function RequestPortal() {
                 setResponse('');
                 setProcessing(false);
                 setError('Request cancelled');
-
             } else {
                 setProcessing(false);
                 setError(error.message);
@@ -57,7 +56,7 @@ export default function RequestPortal() {
     return (
         <div style={{ backgroundColor: color }}>
             <ColorButtons handleColorChange={handleColorChange} />
-            <RequestButtons forwardRef={childRef} processing={processing} handleCreateRequest={createRequest} handleCancelRequest={cancelRequest} />
+            <RequestButtons ref={ref} processing={processing} handleCreateRequest={createRequest} handleCancelRequest={cancelRequest} />
             <Color.Provider value={color}>
                 <RequestResult processing={processing} response={response} error={error} handleCreateRequest={createRequest}/>  
             </Color.Provider>
