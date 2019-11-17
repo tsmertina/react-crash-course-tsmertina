@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const RequestButtons = React.forwardRef((props, ref) => {
     const { handleCreateRequest, handleCancelRequest, processing } = props;
 

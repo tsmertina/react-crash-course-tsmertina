@@ -21,6 +21,11 @@
   color: #09d3ac;
 }
 
+.root, .portal {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .c-loader {
   text-align: center;
 }

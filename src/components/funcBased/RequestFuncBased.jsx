@@ -1,14 +1,14 @@
 import axios from 'axios';
-import React, { useState, useRef } from 'react';
-import RequestButtons from './RequestButtons';
+import React, { useState } from 'react';
+import RequestButtons from '../RequestButtons';
 import RequestResult from './RequestResult';
 import { Color, withColor } from './Color';
-import ColorButtons from './ColorButtons';
+import ColorButtons from '../ColorButtons';
 
 let source = null;
 
 
-export default function RequestPortal() {
+export default function RequestFuncBased() {
     const [response, setResponse] = useState('');
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState('');
