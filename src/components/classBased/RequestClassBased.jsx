@@ -33,7 +33,7 @@ class RequestClassBased extends React.Component {
         const { response, error, processing, color, id } = this.props;
 
         return(
-            <div className="App" style={{backgroundColor: color}}>
+            <div className="app" style={{backgroundColor: color}}>
                 <ColorButtons handleColorChange={this.handleColorChange} />
                 <RequestButtons ref={ref} handleCreateRequest={this.createRequest} handleCancelRequest={this.cancelRequest} processing={processing} />
                 <RequestResult response={response} id={id} error={error} processing={processing} handleCreateRequest={this.createRequest} />
