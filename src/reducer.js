@@ -4,10 +4,11 @@ export const requestLoading = () => ({
     type: 'PERSON_REQUEST_START'
 });
 
-export const requestSuccess = (res, id) =>({
+export const requestSuccess = (res) =>({
     type: 'PERSON_REQUEST_SUCCESS',
     payload: {
         response: `${res.name.title} ${res.name.first} ${res.name.last}`,
+        id: res.login.uuid
     }
 });
 
@@ -65,6 +66,7 @@ export const namesReducer = (state = namesState, action) => {
                 ...state,
                 response: state.response.concat(action.payload.response),
                 processing: false,
+                id: action.payload.id
             }
         }
 

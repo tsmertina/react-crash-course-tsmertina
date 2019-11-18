@@ -30,26 +30,27 @@ class RequestClassBased extends React.Component {
 
     render() {
         const { ref} = this.state;
-        const { response, error, processing, color } = this.props;
+        const { response, error, processing, color, id } = this.props;
 
         return(
             <div className="App" style={{backgroundColor: color}}>
                 <ColorButtons handleColorChange={this.handleColorChange} />
                 <RequestButtons ref={ref} handleCreateRequest={this.createRequest} handleCancelRequest={this.cancelRequest} processing={processing} />
-                <RequestResult response={response} error={error} processing={processing} handleCreateRequest={this.createRequest} />
+                <RequestResult response={response} id={id} error={error} processing={processing} handleCreateRequest={this.createRequest} />
             </div>
         )
     }
 }
 
 function mapStateToProps(store) {
-    const { error, response, names, processing, color } = store;
+    const { error, response, names, processing, color, id } = store;
     return {
         names: names,
         error: error,
         response: response,
         processing: processing,
-        color: color
+        color: color,
+        id: id
     }
 }
 
