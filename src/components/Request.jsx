@@ -1,42 +1,40 @@
 import axios from 'axios';
 import React from 'react';
-import RequestUI from './RequestUI';
+const RequestUI = React.lazy(() => import('./RequestUI'));
 
 class Request extends React.Component {
+
     state = {
         response: {},
-        isCancelled: false,
-        isRequested: false,
         processing: false,
         error: '',
     }
 
-    createRequest = (param) => {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-        let cancel = source.token;
+    createRequest = () => {
+        this.CancelToken = axios.CancelToken;
+        this.source = this.CancelToken.source();
 
-        if (param) {
-            source.cancel();
-            this.setState({
-                isCancelled: true,
-            });
-            clearTimeout(this.state.timeout);
-        }
+        this.setState({
+            response: [],
+            processing: true,
+            error: '',
+        });
+
         axios.get('https://randomuser.me/api/',
-            { cancelToken: cancel }
+            { cancelToken: this.source.token},
         ).then((response) => {
-            !this.state.isCancelled && this.setState({
+            this.setState({
                 response: response.data,
                 processing: false
             });
         }).catch(error => {
             if (axios.isCancel(error)) {
                 this.setState({
-                    error: this.state.isRequested ? 'Request cancelled' : 'Request wasn`t created',
+                    error: 'Request cancelled',
                     processing: false,
                     response: []
                 });
+                
             } else {
                 this.setState({
                     error: error.message,
@@ -46,22 +44,17 @@ class Request extends React.Component {
          });
     }
 
-    createTimeoutRequest = () => {
-        this.setState({
-            response: [],
-            isRequested: true,
-            processing: true,
-            isCancelled: false,
-            error: ''
-        });
-        this.setState({timeout:  setTimeout(() => this.createRequest(), 2000)});
+    cancelRequest = () => {
+        if (this.source) {
+            this.source.cancel();
+        }
     }
 
     render() {
         const { response, error, processing } = this.state;
         let info = response.results? `${response.results[0].name.title} ${response.results[0].name.first} ${response.results[0].name.last}` : '';
         return(
-            <RequestUI response={response} error={error} processing={processing} info={info} handleRequestClick={this.createTimeoutRequest} handleCancelClick={() => this.createRequest('cancel')} />
+            <RequestUI response={response} error={error} processing={processing} info={info} handleRequestClick={this.createRequest} handleCancelClick={this.cancelRequest} />
         )
     }
 }
