@@ -6,7 +6,7 @@ const RequestButtons = React.forwardRef((props, ref) => {
     return (
             <div className="c-request-buttons">
                 <button className="b-app-button" onClick={handleCreateRequest} disabled={processing}>Create Request</button>
-                <button className="b-app-button" ref={ref} onClick={handleCancelRequest}>Cancel request</button>
+                <button className="b-app-button" ref={ref} onClick={handleCancelRequest} disabled={!processing}>Cancel request</button>
             </div>
         )
 });

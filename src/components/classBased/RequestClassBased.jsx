@@ -7,14 +7,19 @@ import { connect } from 'react-redux';
 import { fetchPerson, cancelFetch, colorChange } from '../../reducer';
 
 class RequestClassBased extends React.Component {
-    state = {
-        ref: React.createRef()
+    constructor() {
+        super();
+        this.cancelBtnRef = React.createRef();
+    }
+
+    componentDidUpdate() {
+        this.cancelBtnRef.current.focus();
     }
 
     createRequest = () => {
         this.CancelToken = axios.CancelToken;
         this.source = this.CancelToken.source();
-        this.state.ref.current.focus();
+        
         this.props.fetchPerson('https://randomuser.me/api/', this.source);
     }
 
@@ -29,28 +34,26 @@ class RequestClassBased extends React.Component {
     }
 
     render() {
-        const { ref} = this.state;
         const { response, error, processing, color, id } = this.props;
 
         return(
             <div className="app" style={{backgroundColor: color}}>
                 <ColorButtons handleColorChange={this.handleColorChange} />
-                <RequestButtons ref={ref} handleCreateRequest={this.createRequest} handleCancelRequest={this.cancelRequest} processing={processing} />
-                <RequestResult response={response} id={id} error={error} processing={processing} handleCreateRequest={this.createRequest} />
+                <RequestButtons ref={this.cancelBtnRef} handleCreateRequest={this.createRequest} handleCancelRequest={this.cancelRequest} processing={processing}/>
+                <RequestResult response={response} error={error} processing={processing} handleCreateRequest={this.createRequest} />
             </div>
         )
     }
 }
 
 function mapStateToProps(store) {
-    const { error, response, names, processing, color, id } = store;
+    const { error, response, names, processing, color } = store;
     return {
         names,
         error,
         response,
         processing,
         color,
-        id
     }
 }
 

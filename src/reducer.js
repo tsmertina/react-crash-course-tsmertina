@@ -7,7 +7,9 @@ export const requestLoading = () => ({
 export const requestSuccess = (res) =>({
     type: 'PERSON_REQUEST_SUCCESS',
     payload: {
-        response: `${res.name.title} ${res.name.first} ${res.name.last}`,
+        title: res.name.title,
+        name: res.name.first,
+        lastName: res.name.last,
         id: res.login.uuid
     }
 });
@@ -18,9 +20,7 @@ export const requestCancalled = () =>({
 
 export const requestError = (err) =>({
     type: 'PERSON_REQUEST_ERROR',
-    payload: {
-        error: err
-    }
+    payload: { error: err}
 });
 
 export const colorChange = (color) =>({
@@ -64,9 +64,8 @@ export const namesReducer = (state = namesState, action) => {
         case 'PERSON_REQUEST_SUCCESS': {
             return {
                 ...state,
-                response: state.response.concat(action.payload.response),
+                response: state.response.concat(action.payload),
                 processing: false,
-                id: action.payload.id
             }
         }
 
