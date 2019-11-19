@@ -34,7 +34,7 @@ class RequestClassBased extends React.Component {
     }
 
     render() {
-        const { response, error, processing, color, id } = this.props;
+        const { response, error, processing, color } = this.props;
 
         return(
             <div className="app" style={{backgroundColor: color}}>
