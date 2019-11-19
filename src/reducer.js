@@ -18,16 +18,14 @@ export const requestCancalled = () =>({
     type: 'PERSON_REQUEST_CANCELLED',
 });
 
-export const requestError = (err) =>({
+export const requestError = (error) =>({
     type: 'PERSON_REQUEST_ERROR',
-    payload: { error: err}
+    error
 });
 
 export const colorChange = (color) =>({
     type: 'THEME_CHANGED',
-    payload: {
-        color: color
-    }
+    color
 });
 
 
@@ -80,7 +78,7 @@ export const namesReducer = (state = namesState, action) => {
         case 'PERSON_REQUEST_ERROR': {
             return {
                 ...state,
-                error: action.payload,
+                error: action.error,
                 processing: false
             }
         }
@@ -88,7 +86,7 @@ export const namesReducer = (state = namesState, action) => {
         case 'THEME_CHANGED': {
             return {
                 ...state,
-                color: action.payload.color
+                color: action.color
             }
         }
 
