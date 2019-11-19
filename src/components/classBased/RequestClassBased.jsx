@@ -45,12 +45,12 @@ class RequestClassBased extends React.Component {
 function mapStateToProps(store) {
     const { error, response, names, processing, color, id } = store;
     return {
-        names: names,
-        error: error,
-        response: response,
-        processing: processing,
-        color: color,
-        id: id
+        names,
+        error,
+        response,
+        processing,
+        color,
+        id
     }
 }
 
