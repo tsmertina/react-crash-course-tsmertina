@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
 }
 
@@ -19,6 +19,11 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.root, .portal {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .c-loader {

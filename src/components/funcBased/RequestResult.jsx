@@ -1,7 +1,7 @@
 import React, {useContext}from 'react';
 import RequestResultPortal from './RequestResultPortal';
 import { Color, withColor } from './Color';
-import Loader from "./Loader";
+import Loader from "../Loader";
 
  export default function RequestResult(props) {
     const color = useContext(Color);
